@@ -1,3 +1,9 @@
+Pagination and Sorting
+Search 
+Validation
+Global Error Handling
+
+
 # Student Course Management System
 
 A Spring Boot application for managing students, courses, and enrollments.

@@ -17,8 +17,17 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public String listStudents(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());
+public String listStudents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            Model model) {
+
+        var studentsPage = studentService.getStudentsPage(page, size, sortBy);
+        model.addAttribute("studentsPage", studentsPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", studentsPage.getTotalPages());
+
         return "students/list";
     }
 

@@ -5,6 +5,11 @@ import com.a5.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -70,4 +75,10 @@ public class StudentService {
     public boolean existsByEmail(String email) {
         return studentRepository.existsByEmail(email);
     }
+    @Transactional(readOnly = true)
+    public Page<Student> getStudentsPage(int page, int size, String sortBy) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    return studentRepository.findAll(pageable);
+}
+
 } 

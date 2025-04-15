@@ -4,6 +4,8 @@ import com.a5.model.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  */
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
+
     /**
      * Checks if a course with the specified name already exists.
      * 
@@ -30,4 +33,17 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      */
     @Query("SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.students")
     List<Course> findAllWithStudents();
-} 
+
+    /**
+     * Enables pagination for courses.
+     */
+    Page<Course> findAll(Pageable pageable);
+
+    /**
+     * Enables case-insensitive search by course name.
+     * 
+     * @param keyword The name fragment to search for
+     * @return List of matching courses
+     */
+    List<Course> findByNameContainingIgnoreCase(String keyword);
+}
